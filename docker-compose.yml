@@ -1,0 +1,34 @@
+version: '3'
+services:
+    mongo:
+        image: mongo
+        container_name: gitwrapper-mongo
+        restart: always
+        volumes:
+            - mongo-storage:/data/db
+
+    gitwrapper:
+        image: gitwrapper
+        build: .
+        container_name: gitwrapper
+        restart: always
+        ports:
+            - '3000:3000'
+        depends_on:
+            - mongo
+        environment:
+            - MONGO_URI=mongodb://mongo:27017/gitwrapper
+            - JAEGER_URI=http://jaeger-collector:4318/v1/traces
+
+    jaeger-collector:
+        image: jaegertracing/all-in-one
+        container_name: gitwrapper-jaeger
+        restart: always
+        ports:
+            - '16686:16686'
+        environment:
+            - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+            - COLLECTOR_OTLP_ENABLED=true
+
+volumes:
+    mongo-storage:
