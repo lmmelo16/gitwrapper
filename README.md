@@ -2,15 +2,15 @@
 
 ## Build
 
-### Build Docker Image
+### Build and Run API, MongoDB and Jaeger
 
-`docker build -t gitwrapper .`
+`docker-compose up -d --build` - This will build and start the API on port 3000, MongoDB and Jaeger on port 16686
 
 ### Run API, MongoDB and Jaeger
 
-`docker compose up -d` - This will start the API on port 3000 and the MongoDB on port 27017
+`docker compose up -d` - This will start the API on port 3000, MongoDB and Jaeger on port 16686
 
-### Run Cli (needs mongodb running)
+### Run Cli (after running docker-compose)
 
 `bash cli.sh <command>` - Abstracts the cli interaction that is also running in the docker container
 
